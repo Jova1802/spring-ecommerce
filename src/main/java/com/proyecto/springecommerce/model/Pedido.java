@@ -1,13 +1,27 @@
 package com.proyecto.springecommerce.model;
 
+import jakarta.persistence.*;
+
 import java.util.Date;
 
+import static org.yaml.snakeyaml.nodes.NodeId.mapping;
+
+@Entity
+@Table(name = "pedidos")
 public class Pedido {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String numero;
     private Date fechaCreacion;
     private Date fechaRecepcion;
     private double total;
+
+    @ManyToOne
+    private Usuario usuario;
+
+    @OneToOne(mappedBy = "pedido")
+    private DetallePedido detalle;
 
     public Pedido() {
     }
@@ -58,6 +72,22 @@ public class Pedido {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public DetallePedido getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(DetallePedido detalle) {
+        this.detalle = detalle;
     }
 
     @Override
