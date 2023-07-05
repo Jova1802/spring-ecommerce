@@ -54,16 +54,8 @@ public class ProductoController {
             String nombreImagen = upload.saveImage(file);
             producto.setImagen(nombreImagen);
         }else{
-            if(file.isEmpty()){  // cuando editamos un producto pero no cambiamos la imagen
-                Producto p = new Producto();
-                p = productoService.get(producto.getId()).get();
-                producto.setImagen(p.getImagen());
-            }else {
-                String nombreImagen = upload.saveImage(file);
-                producto.setImagen(nombreImagen);
-            }
-        }
 
+        }
         productoService.save(producto);
         return "redirect:/product";
     }
@@ -82,9 +74,42 @@ public class ProductoController {
     }
 
     @PostMapping("/update")
-    public String update(Producto producto){
+    public String update(Producto producto,  @RequestParam("img") MultipartFile file) throws IOException {
+
+        if(file.isEmpty()){  // cuando editamos un producto pero no cambiamos la imagen
+            Producto p = new Producto();
+            p = productoService.get(producto.getId()).get();
+            producto.setImagen(p.getImagen());
+        }else { // esto pasa cuando se edita la imagen
+
+            Producto p = new Producto();
+            p = productoService.get(producto.getId()).get();
+
+            // eliminar cuando no sea la imagen por defecto
+            if(!p.getImagen().equals("default.jpg")){
+                upload.deleteImage(p.getImagen());
+            }
+
+            String nombreImagen = upload.saveImage(file);
+            producto.setImagen(nombreImagen);
+        }
 
         productoService.update(producto);
+        return "redirect:/product";
+    }
+
+    @GetMapping("delete/{id}")
+    public String delete(@PathVariable int id){
+
+        Producto p = new Producto();
+        p = productoService.get(id).get();
+
+        // eliminar cuando no sea la imagen por defecto
+        if(!p.getImagen().equals("default.jpg")){
+            upload.deleteImage(p.getImagen());
+        }
+
+        productoService.delete(id);
         return "redirect:/product";
     }
 }
