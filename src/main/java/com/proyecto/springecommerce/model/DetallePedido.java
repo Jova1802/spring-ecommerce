@@ -10,7 +10,7 @@ public class DetallePedido {
     // atributos clase Detalles pedido
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String nombre;
     private double cantidad;
     private double precio;
@@ -29,7 +29,7 @@ public class DetallePedido {
     }
 
     //----------------------------------------------------------------constructor----------------------------------------------------------------
-    public DetallePedido(int id, String nombre, double cantidad, double precio, double total) {
+    public DetallePedido(Integer id, String nombre, double cantidad, double precio, double total) {
         this.id = id;
         this.nombre = nombre;
         this.cantidad = cantidad;
@@ -38,11 +38,11 @@ public class DetallePedido {
     }
 
     //----------------------------------------------------------------getters and setters----------------------------------------------------------------
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

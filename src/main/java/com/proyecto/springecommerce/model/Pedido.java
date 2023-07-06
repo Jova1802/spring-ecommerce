@@ -11,7 +11,7 @@ import static org.yaml.snakeyaml.nodes.NodeId.mapping;
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String numero;
     private Date fechaCreacion;
     private Date fechaRecepcion;
@@ -26,7 +26,7 @@ public class Pedido {
     public Pedido() {
     }
 
-    public Pedido(int id, String numero, Date fechaCreacion, Date fechaRecepcion, double total) {
+    public Pedido(Integer id, String numero, Date fechaCreacion, Date fechaRecepcion, double total) {
         this.id = id;
         this.numero = numero;
         this.fechaCreacion = fechaCreacion;
@@ -34,7 +34,7 @@ public class Pedido {
         this.total = total;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

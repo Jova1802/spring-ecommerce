@@ -50,18 +50,20 @@ public class ProductoController {
         producto.setUsuario(usuario);
 
         // guardado de imagen de producto
-        if(producto.getId() == Integer.parseInt(null)){ // cuando se crea un producto este trae un ID null
+        if(producto.getId() == null){ // cuando se crea un producto este trae un ID null
             String nombreImagen = upload.saveImage(file);
             producto.setImagen(nombreImagen);
         }else{
 
         }
         productoService.save(producto);
+
+
         return "redirect:/product";
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable int id, Model model){
+    public String edit(@PathVariable Integer id, Model model){
         Producto producto = new Producto();
         Optional<Producto> optionalProducto = productoService.get(id);
         producto = optionalProducto.get();
@@ -76,30 +78,27 @@ public class ProductoController {
     @PostMapping("/update")
     public String update(Producto producto,  @RequestParam("img") MultipartFile file) throws IOException {
 
+        Producto p = new Producto();
+        p = productoService.get(producto.getId()).get();
+
         if(file.isEmpty()){  // cuando editamos un producto pero no cambiamos la imagen
-            Producto p = new Producto();
-            p = productoService.get(producto.getId()).get();
             producto.setImagen(p.getImagen());
         }else { // esto pasa cuando se edita la imagen
-
-            Producto p = new Producto();
-            p = productoService.get(producto.getId()).get();
-
             // eliminar cuando no sea la imagen por defecto
             if(!p.getImagen().equals("default.jpg")){
                 upload.deleteImage(p.getImagen());
             }
-
             String nombreImagen = upload.saveImage(file);
             producto.setImagen(nombreImagen);
         }
 
+        producto.setUsuario(p.getUsuario());
         productoService.update(producto);
         return "redirect:/product";
     }
 
     @GetMapping("delete/{id}")
-    public String delete(@PathVariable int id){
+    public String delete(@PathVariable Integer id){
 
         Producto p = new Producto();
         p = productoService.get(id).get();

@@ -22,7 +22,7 @@ public class ProductoServiceImplement implements ProductoService{
     }
 
     @Override
-    public Optional<Producto> get(int id) {
+    public Optional<Producto> get(Integer id) {
         return productoRepository.findById(id);
     }
 
@@ -32,7 +32,7 @@ public class ProductoServiceImplement implements ProductoService{
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Integer id) {
         productoRepository.deleteById(id);
     }
 
