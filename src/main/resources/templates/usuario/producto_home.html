@@ -45,7 +45,7 @@
               </a>
             </div>
             <div class="col-lg-6">
-              <form action="carrito.html" method="POST">
+              <form th:action="@{/car}" method="POST">
                 <h2 class="card-title" th:text="${producto.nombre}"></h2>
 
                 <ul class="list-group">
@@ -57,7 +57,7 @@
                   </li>
                 </ul>
 
-                <button type="submit"  class="btn btn-success">Añadir al carrito </button>
+                <button type="submit" class="btn btn-success">Añadir al carrito </button>
 
               </form>
             </div>
