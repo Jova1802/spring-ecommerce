@@ -53,7 +53,7 @@ public class HomeController {
     }
 
     @PostMapping("/car")
-    public String addCar(@RequestParam Integer id, @RequestParam Integer cantidad){
+    public String addCar(@RequestParam Integer id, @RequestParam Integer cantidad, Model model){
 
         DetallePedido detallePedido = new DetallePedido();
         Producto producto = new Producto();
@@ -62,6 +62,23 @@ public class HomeController {
 
         log.info("Producto añadido: {}", optionalProducto.get());
         log.info("Cantidad: {}", cantidad);
+
+        producto = optionalProducto.get();
+
+        detallePedido.setCantidad(cantidad);
+        detallePedido.setPrecio(producto.getPrecio());
+        detallePedido.setNombre(producto.getNombre());
+        detallePedido.setTotal(producto.getPrecio() * cantidad);
+        detallePedido.setProducto(producto);
+
+        detalle.add(detallePedido);
+
+        sumaTotal = detalle.stream().mapToDouble(dt -> dt.getTotal()).sum(); // Funcion que nos suma el total de todos los productos
+
+        pedido.setTotal(sumaTotal);
+
+        model.addAttribute("car", detalle);
+        model.addAttribute("pedido", pedido);
 
         return "usuario/carrito";
     }
