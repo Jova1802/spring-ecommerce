@@ -59,7 +59,7 @@
                   <td th:text="${dpedido.cantidad}"></td>
                   <td th:text="${dpedido.total}"></td>
 
-                  <td><a href="#" class="btn btn-danger">Quitar</a></td>
+                  <td><a href="#" class="btn btn-danger" th:href="@{/delete/car/{id} (id = ${dpedido.producto.id})}">Quitar</a></td>
 
                 </tr>
               </tbody>
