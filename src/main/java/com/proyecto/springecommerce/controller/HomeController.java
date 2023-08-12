@@ -71,7 +71,14 @@ public class HomeController {
         detallePedido.setTotal(producto.getPrecio() * cantidad);
         detallePedido.setProducto(producto);
 
-        detalle.add(detallePedido);
+        // valodar que no se pueda adicionar dos veces el mismo producto
+
+        Integer idProducto = producto.getId();
+        boolean ingresado = detalle.stream().anyMatch(p -> p.getProducto().getId() == idProducto);
+
+        if (!ingresado){
+            detalle.add(detallePedido);
+        }
 
         sumaTotal = detalle.stream().mapToDouble(dt -> dt.getTotal()).sum(); // Funcion que nos suma el total de todos los productos
 
@@ -108,6 +115,17 @@ public class HomeController {
         model.addAttribute("pedido", pedido);
 
         return "usuario/carrito";
+    }
+
+    // Metodo para funcionalidad de boton carrito
+    @GetMapping("/getCar")
+    public String getCar(Model model) {
+
+        model.addAttribute("car", detalle);
+        model.addAttribute("pedido", pedido);
+
+        return "/usuario/carrito";
+
     }
 
 }
